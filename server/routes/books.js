@@ -51,7 +51,7 @@ router.post('/add', (req, res, next) => {
 });
 
 // GET the Book Details page in order to edit an existing Book
-router.get('/:id', (req, res, next) => {
+router.get('/edit/:id', (req, res, next) => {
   const id = req.params.id;
   Book.findById(id, (err, book) => {
     if (err) {
@@ -59,14 +59,15 @@ router.get('/:id', (req, res, next) => {
     } else {
       res.render('books/details', {
         title: 'Edit Book',
-        book: book
+        book: book,
+        books: book // Pass the "book" object as "books"
       });
     }
   });
 });
 
 // POST - process the information passed from the details form and update the document
-router.post('/:id', (req, res, next) => {
+router.post('/edit/:id', (req, res, next) => {
   const id = req.params.id;
   const { title, price, author, genre } = req.body;
   const updatedBook = {
@@ -85,7 +86,6 @@ router.post('/:id', (req, res, next) => {
     res.redirect('/books');
   });
 });
-
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
   const id = req.params.id;
