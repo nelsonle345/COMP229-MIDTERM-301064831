@@ -7,7 +7,10 @@
           <h3>Favourite Books List </h3>
 
           <!-- FIX THE ADD BUTTON BELOW -->
-          <a href="../books/details.ejs" class="btn btn-primary"><i class="fa fa-plus"></i> Add a book</a>
+          <a href="/books/add" class="btn btn-primary">
+            <i class="fa fa-plus"></i> Add a book
+          </a>
+        
           <br>
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
@@ -32,7 +35,7 @@
 
                   <td class="text-center">
                     <!-- ADD the EDIT BUTTON HERE -->
-                    <a href="/books/details/<%= books[count]._id %>/edit" class="btn btn-primary btn-sm">
+                    <a href="/books/edit<%= books[count]._id %>" class="btn btn-primary btn-sm">
                       <i class="fa fa-edit"></i> Edit
                     </a>
                     <!-- ------------------------ -->
@@ -40,7 +43,7 @@
 
                   <td class="text-center">
                     <!-- ADD the DELETE BUTTON HERE -->
-                    <a href="/books/<%= books[count]._id %>/delete" class="btn btn-danger btn-sm">
+                    <a href="/books/delete/<%= books[count]._id %>" class="btn btn-danger btn-sm">
                       <i class="fa fa-trash"></i> Delete
                     </a>
                     <!-- ------------------------ -->

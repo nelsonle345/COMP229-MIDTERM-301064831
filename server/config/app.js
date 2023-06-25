@@ -1,4 +1,4 @@
-// moddules for node and express
+// modules for node and express
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
@@ -14,7 +14,7 @@ mongoose.connect(process.env.URI || DB.URI, { useNewUrlParser: true, useUnifiedT
 
 let mongoDB = mongoose.connection;
 mongoDB.on('error', console.error.bind(console, 'Connection Error:'));
-mongoDB.once('open', ()=> {
+mongoDB.once('open', () => {
   console.log("Connected to MongoDB...");
 });
 
@@ -37,18 +37,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../client')));
 
 
+
 // route redirects
 app.use('/', index);
 app.use('/books', books);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
