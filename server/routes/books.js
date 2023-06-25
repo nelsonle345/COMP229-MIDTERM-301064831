@@ -32,10 +32,11 @@ router.get('/add', (req, res, next) => {
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
-  const { title, price, author, genre } = req.body;
+  const { title, price, description,author, genre } = req.body;
   const newBook = new Book({
     Title: title,
     Price: price,
+    Description: description,
     Author: author,
     Genre: genre
   });
@@ -69,10 +70,11 @@ router.get('/edit/:id', (req, res, next) => {
 // POST - process the information passed from the details form and update the document
 router.post('/edit/:id', (req, res, next) => {
   const id = req.params.id;
-  const { title, price, author, genre } = req.body;
+  const { title, price, description, author, genre } = req.body;
   const updatedBook = {
     Title: title,
     Price: price,
+    Description: description,
     Author: author,
     Genre: genre
   };
