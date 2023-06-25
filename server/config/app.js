@@ -36,8 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../client')));
 
-
-
 // route redirects
 app.use('/', index);
 app.use('/books', books);
@@ -60,3 +58,4 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+

@@ -90,41 +90,15 @@ router.post('/edit/:id', (req, res, next) => {
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
   const id = req.params.id;
-  Book.findById(id, (err, book) => {
+  Book.findByIdAndRemove(id, (err, book) => {
     if (err) {
       console.log(err);
       res.redirect('/books'); // Redirect to the books list page
     } else {
-      if (!book) {
-        console.log('Book not found');
-        res.redirect('/books'); // Redirect to the books list page
-      } else {
-        res.render('books/delete', {
-          title: 'Delete Book',
-          book: book
-        });
-      }
+      console.log('Book deleted:', book);
+      res.redirect('/books'); // Redirect to the books list page
     }
   });
-});
-
-// POST - process the confirmation or cancellation of book deletion
-router.post('/delete/:id', (req, res, next) => {
-  const id = req.params.id;
-  const confirmation = req.body.confirmation;
-
-  if (confirmation === 'yes') {
-    Book.findByIdAndRemove(id, (err, book) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('Book deleted:', book);
-      }
-      res.redirect('/books'); // Redirect to the books list page
-    });
-  } else {
-    res.redirect('/books'); // Redirect to the books list page
-  }
 });
 
 module.exports = router;
