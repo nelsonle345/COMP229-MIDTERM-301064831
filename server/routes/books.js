@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 
 // define the book model
 let Book = require('../models/books');
-const books = require('../models/books');
+let books = require('../models/books');
 
 /* GET books List page. READ */
 router.get('/', (req, res, next) => {
@@ -46,7 +46,7 @@ router.post('/add', (req, res, next) => {
     } else {
       console.log('New book added:', book);
     }
-    res.redirect('/books/details/' + book._id); // Redirect to the BookDetails page with the newly created book's ID
+    res.redirect('/books'); // Redirect to the BookDetails page with the newly created book's ID
   });
 });
 
@@ -86,19 +86,45 @@ router.post('/edit/:id', (req, res, next) => {
     res.redirect('/books');
   });
 });
+
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
   const id = req.params.id;
-  Book.findByIdAndRemove(id, (err, book) => {
+  Book.findById(id, (err, book) => {
     if (err) {
       console.log(err);
+      res.redirect('/books'); // Redirect to the books list page
     } else {
-      console.log('Book deleted:', book);
+      if (!book) {
+        console.log('Book not found');
+        res.redirect('/books'); // Redirect to the books list page
+      } else {
+        res.render('books/delete', {
+          title: 'Delete Book',
+          book: book
+        });
+      }
     }
-    res.redirect('/books');
   });
-  
 });
 
+// POST - process the confirmation or cancellation of book deletion
+router.post('/delete/:id', (req, res, next) => {
+  const id = req.params.id;
+  const confirmation = req.body.confirmation;
+
+  if (confirmation === 'yes') {
+    Book.findByIdAndRemove(id, (err, book) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Book deleted:', book);
+      }
+      res.redirect('/books'); // Redirect to the books list page
+    });
+  } else {
+    res.redirect('/books'); // Redirect to the books list page
+  }
+});
 
 module.exports = router;
