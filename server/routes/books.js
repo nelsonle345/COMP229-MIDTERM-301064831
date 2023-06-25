@@ -71,22 +71,43 @@ router.get('/:id', (req, res, next) => {
     }
   });
 
-
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
 
-  
- 
+  const id = req.params.id;
+  const { title, price, author, genre } = req.body;
+  const updatedBook = {
+    Title: title,
+    Price: price,
+    Author: author,
+    Genre: genre
+  };
 
-  
+  Book.findByIdAndUpdate(id, updatedBook, (err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Book updated:', book);
+    }
+    res.redirect('/books');
+  });
    
 });
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
-
+  
+  const id = req.params.id;
+  Book.findByIdAndRemove(id, (err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Book deleted:', book);
+    }
+    res.redirect('/books');
+  });
   
 });
 
