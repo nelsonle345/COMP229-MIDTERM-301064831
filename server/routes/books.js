@@ -26,44 +26,86 @@ router.get('/', (req, res, next) => {
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+  res.render('books/details', {
+    title: 'Add Book',
+    book: {}
+  });
+  
 });
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+  const { title, price, author, genre } = req.body;
+  const newBook = new Book({
+    Title: title,
+    Price: price,
+    Author: author,
+    Genre: genre
+  });
+
+  newBook.save((err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('New book added:', book);
+    }
+    res.redirect('/books');
+  });
 
 });
 
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+  const id = req.params.id;
+  Book.findById(id, (err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('books/details', {
+        title: 'Edit Book',
+        book: book
+      });
+    }
+  });
+
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+  const id = req.params.id;
+  const { title, price, author, genre } = req.body;
+  const updatedBook = {
+    Title: title,
+    Price: price,
+    Author: author,
+    Genre: genre
+  };
 
+  Book.findByIdAndUpdate(id, updatedBook, (err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Book updated:', book);
+    }
+    res.redirect('/books');
+  });
 });
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+  const id = req.params.id;
+  Book.findByIdAndRemove(id, (err, book) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Book deleted:', book);
+    }
+    res.redirect('/books');
+  });
 });
 
 
